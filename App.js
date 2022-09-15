@@ -1,8 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, ImageBackground, Button } from 'react-native';
+import * as React from 'react';
+import { StyleSheet, Text, ImageBackground, Button, View } from 'react-native';
 import { Audio } from 'expo-av';
-import { View } from 'react-native-web';
 
 export default function App() {
 
@@ -20,8 +19,10 @@ export default function App() {
           playsInSilentModeIOS: true
         });
 
+        console.log('Starting recording..');
+
         const { recording } = await Audio.Recording.createAsync(
-          Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+          Audio.RecordingOptionsPresets.HIGH_QUALITY
         );
 
         setRecording(recording);
@@ -51,7 +52,7 @@ export default function App() {
   function getDurationFormatted(millis) {
     const minutes = millis / 1000 / 60;
     const minutesDisplay = Math.floor(minutes);
-    const seconds = Math.round((minutes = minutesDisplay) * 60);
+    const seconds = Math.round((minutes - minutesDisplay) * 60);
     const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds;
     return `${minutesDisplay}:${secondsDisplay}`;
   }
